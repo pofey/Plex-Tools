@@ -92,8 +92,8 @@ class plexchineseactor:
                     # _LOGGER.info(libtable[i])
                     self.process_single(tvshows[0])
                 else:
-                    print(video.title)
-                    self.singleVideo(video)
+                    _LOGGER.info(video.title)
+                    self.process_single(video)
 
     def process_all(self):
         servertype = MediaServerInstance.server_type
@@ -111,4 +111,7 @@ class plexchineseactor:
                 videos = plex.library.section(libtable[i])
                 video_len=len(videos.all())
                 for video,i in zip(videos.all(),range(video_len)):
-                    self.process_single(video)
+                    try:
+                        self.process_single(video)
+                    except Exception as e:
+                        _LOGGER.error(f'{libtable[i]}处理错误')
